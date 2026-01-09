@@ -1,0 +1,14 @@
+{
+  "name": "cse340-practice-dorlando",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
