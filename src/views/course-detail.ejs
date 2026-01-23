@@ -5,7 +5,15 @@
         <p class="course-meta"><%= course.id %> • <%= course.credits %> credits</p>
         <p class="course-description"><%= course.description %></p>
     </div>
-
+    <% if (queryParams.sort) { %>
+        <div class="sort-message">
+            <p>Currently sorted by: <%= queryParams.sort.toUpperCase() %></p>
+        </div>
+    <% } else { %>
+        <div class="sort-message">
+            <p>No sorting applied, using default sorting by time.</p>
+        </div>
+    <% } %>
     <div class="sections">
         <div class="sections-header">
             <h2>Available Sections</h2>

@@ -56,6 +56,56 @@ app.use((req,res,next) => {
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
+app.use((req, res, next) => {
+    if(!req.path.startsWith('/.')) {
+        console.log(`${req.method} ${req.url}`);
+    }
+    next();
+});
+
+app.use((req, res, next) => {
+    res.locals.currentYear = new Date().getFullYear();
+    next();
+});
+
+app.use((req, res, next) => {
+    const currentHour = new Date().getHours();
+    let greeting = '';
+    if(currentHour<12) {
+        greeting = 'Good Morning';
+    } else if(currentHour<18) {
+        greeting = 'Good Afternoon';
+    } else {
+        greeting = 'Good Evening';
+    }
+    res.locals.greeting = greeting;
+    next();
+});
+
+app.use((req, res, next) => {
+    const themes = ['blue-theme', 'green-theme', 'red-theme'];
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+    res.locals.bodyClass = randomTheme;
+
+    next();
+})
+
+app.use((req, res, next) => {
+    res.locals.queryParams = req.query || {};
+    next();
+})
+
+const addDemoHeaders = (req, res, next) => {
+    res.setHeader('X-Demo-Page', true);
+    res.setHeader('X-Middleware-Demo','Hey Buddy');
+    next();
+}
+app.get('/demo', addDemoHeaders, (req, res) => {
+    res.render('demo', {
+        title: 'Middleware Demo Page'
+    });
+})
+
 app.get('/', (req, res) => {
     const title = 'Welcome Home';
     res.render('home', {title});
